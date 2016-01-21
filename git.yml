@@ -1,0 +1,22 @@
+- hosts: localhost
+  tasks:
+  - name: install git
+    yum: name=git state=latest
+    become: yes
+    become_method: sudo
+  - name: clone pet 
+    git: repo=https://github.com/Ilandani/spring-petclinic.git dest=/home/ec2-user/pet 
+  - name: clone stam
+    git: repo=https://github.com/Ilandani/stam.git dest=/home/ec2-user/stam update=yes
+  - name: get maven file
+    get_url: url=http://apache.mivzakim.net/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz dest=/home/ec2-user
+  - name: open tar
+    unarchive: src=/home/ec2-user/apache-maven-3.3.9-bin.tar.gz dest=/home/ec2-user
+  - name: set meven parametrs M2_HOME
+    lineinfile: dest=/home/ec2-user/.bash_profile regexp="M2_HOME" line="M2_HOME=/home/ec2-user/apache-maven-3.3.9"
+  - name: set meven parametrs M2
+    lineinfile: dest=/home/ec2-user/.bash_profile regexp="M2=" line="M2=$M2_HOME/bin"
+#  - name: add mevan to PATH
+#    lineinfile: dest=/home/ec2-user/.bash_profile 
+
+ 
